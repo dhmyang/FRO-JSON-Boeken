@@ -28,3 +28,14 @@ body {
   font-size: 2rem;
   color: #2ecc71;
 }
+
+@media (min-width: 1250px) {
+  #boeken {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .book:nth-child(4n + 2),
+  .book:nth-child(4n + 3) {
+    background-color: aquamarine;
+  }
+}
