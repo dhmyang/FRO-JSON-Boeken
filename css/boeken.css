@@ -1,6 +1,33 @@
 body {
   font-family: "Roboto", sans-serif;
 }
+
+.cart {
+  position: absolute;
+  right: 4em;
+  top: 2em;
+  cursor: pointer;
+}
+.cart__icon {
+  height: 3em;
+}
+.cart__amount {
+  font-size: 0.6em;
+  position: absolute;
+  top: -0.3em;
+  left: 3.5em;
+  background-color: red;
+  color: white;
+  width: 1em;
+  line-height: 1em;
+  padding: 0.5em;
+  text-align: center;
+  border-radius: 5em;
+}
+
+#boeken {
+  clear: both;
+}
 .control__sort {
   float: right;
   text-align: right;
@@ -11,8 +38,10 @@ body {
 }
 .book .book__cover {
   float: left;
-  padding: 0 3rem 0 0;
-  max-width: 200px;
+  max-width: 150px;
+}
+.book__info {
+  margin-left: 180px;
 }
 .book .book__titel {
   margin-top: 0;
@@ -27,6 +56,22 @@ body {
 .book .book__price {
   font-size: 2rem;
   color: #2ecc71;
+}
+.book__order {
+  font-size: 0.5em;
+  float: right;
+  display: block;
+  text-decoration: none;
+  color: #30b0b0;
+  padding: 0.4em 2.5em;
+  border: 2px solid #30b0b0;
+  margin-top: 1em;
+  margin-right: 1em;
+  border-radius: 1em;
+  background-color: white;
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.2em;
 }
 
 @media (min-width: 1250px) {

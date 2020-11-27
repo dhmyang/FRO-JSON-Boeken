@@ -92,6 +92,7 @@ const books = {
 
       html += `<section class="book">`;
       html += `<img class ="book__cover" src ="${book.cover}" alt"${title}">`;
+      html += `<div class="book__info">`;
       html += `<h3 class="book__titel">${title}</h3>`;
       html += `<p class="book__authors">${auteurs}</p>`;
       html += `<span class="book__edition">${this.changingDate(
@@ -103,8 +104,8 @@ const books = {
       html += `<div class="book__price">${book.prijs.toLocaleString("nl-NL", {
         currency: "EUR",
         style: "currency",
-      })}</div>`;
-      html += `</section>`;
+      })}<a href="#" class="book__order">Bestellen</a></div>`;
+      html += `</div></section>`;
     });
     output.innerHTML = html;
   },
