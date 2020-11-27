@@ -2,7 +2,7 @@ const output = document.getElementById("boeken");
 const request = new XMLHttpRequest();
 const taalfilters = document.querySelectorAll(".control__cb");
 const selectSort = document.querySelector(".control__select");
-
+const amountCart = document.querySelector(".cart__amount");
 request.onreadystatechange = () => {
   if (request.readyState === 4 && request.status === 200) {
     let result = JSON.parse(request.responseText);
@@ -16,8 +16,12 @@ request.onreadystatechange = () => {
 request.open("GET", "boeken.json", true);
 request.send();
 
+const cart = {
+  order: [],
+};
+
 const books = {
-  allLangu: ["Nederlands", "Engels", "Engels"],
+  allLangu: ["Nederlands", "Chinees", "Engels"],
   es: "titel",
   oplopend: 1,
 
@@ -104,10 +108,22 @@ const books = {
       html += `<div class="book__price">${book.prijs.toLocaleString("nl-NL", {
         currency: "EUR",
         style: "currency",
-      })}<a href="#" class="book__order">Bestellen</a></div>`;
+      })}
+                <a href="#" class="book__order" data-role="${
+                  book.ean
+                }">bestellen</a></div>`;
       html += `</div></section>`;
     });
     output.innerHTML = html;
+    document.querySelectorAll(".book__order").forEach((knop) => {
+      knop.addEventListener("click", (e) => {
+        e.preventDefault();
+        let bookID = e.target.getAttribute("data-role");
+        let clickedBook = this.data.filter((b) => b.ean == bookID);
+        cart.order.push(clickedBook[0]);
+        amountInCart.innerHTML = ww.bestelling.length;
+      });
+    });
   },
   changingDate(dateString) {
     let date = new Date(dateString);
