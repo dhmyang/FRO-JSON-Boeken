@@ -1,5 +1,7 @@
 body {
   font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .cart {
@@ -43,6 +45,7 @@ body {
 .book__info {
   margin-left: 180px;
 }
+
 .book .book__titel {
   margin-top: 0;
   color: #2ecc71;
@@ -57,6 +60,7 @@ body {
   font-size: 2rem;
   color: #2ecc71;
 }
+
 .book__order {
   font-size: 0.5em;
   float: right;
@@ -72,6 +76,10 @@ body {
   font-weight: 700;
   font-variant: small-caps;
   letter-spacing: 0.2em;
+}
+.book__order:hover {
+  color: white;
+  background-color: #30b0b0;
 }
 
 @media (min-width: 1250px) {
@@ -106,4 +114,21 @@ body {
   margin: 4vh 4vw;
   transform: translateX(100vw);
   transition: transform 1s ease-out;
+}
+.order-form__cover {
+  height: 3rem;
+}
+.order-form__trash,
+.order-form__down,
+.order-form__up {
+  padding: 0 1rem;
+}
+.order-form__trash:hover,
+.order-form__down:hover {
+  color: red;
+  cursor: pointer;
+}
+.order-form__up:hover {
+  color: green;
+  cursor: pointer;
 }

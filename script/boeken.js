@@ -15,32 +15,106 @@ request.onreadystatechange = () => {
 };
 request.open("GET", "boeken.json", true);
 request.send();
-
 const cart = {
   order: [],
   addBook(obj) {
-    cart.order.push(obj);
-    amountInCart.innerHTML = this.bestelling.length;
-  },
-
-  saveOrder() {
+    let found = this.order.filter((b) => b.ean == obj.ean);
+    if (found.length == 0) {
+      obj.orderCount++;
+      cart.order.push(obj);
+    } else {
+      found[0].orderCount++;
+    }
     localStorage.cartOrder = JSON.stringify(this.order);
-  },
-
-  getOrder() {
-    this.order = JSON.parse(localStorage.cartOrder);
-    amountInCart.innerHTML = this.bestelling.length;
     this.run();
   },
+  getOrder() {
+    if (localStorage.cartOrder) {
+      this.order = JSON.parse(localStorage.cartOrder);
+    }
+    this.run();
+  },
+  run() {
+    let html = "<table>";
+    let total = 0;
+    let totalOrdered = 0;
+    this.order.forEach((book) => {
+      let completeTitle = "";
+      if (book.voortitel) {
+        completeTitle += book.voortitel + " ";
+      }
+      completeTitle += book.titel;
+      html += "<tr>";
+      html += `<td><img class="order-form__cover" src="${book.cover}" alt="${completeTitle}"></td>`;
+      html += `<td>${completeTitle}</td>`;
+      html += `<td class="order-form__order-count">
+            <i class="order-form__down fas fa-arrow-circle-down" data-role="${book.ean}"></i>
+            ${book.orderCount}
+            <i class="order-form__up fas fa-arrow-circle-up" data-role="${book.ean}"></i></td>`;
+      html += `<td>${book.prijs.toLocaleString("nl-NL", {
+        currency: "EUR",
+        style: "currency",
+      })}</td>`;
+      html += `<td><i class="far fa-trash-alt order-form__trash" data-role="${book.ean}"></i></td>`;
+      html += "</tr>";
+      total += book.prijs * book.orderCount;
+      totalOrdered += book.orderCount;
+    });
+    html += `<tr><td colspan="3">Totaal:</td>
+        <td>${total.toLocaleString("nl-NL", {
+          currency: "EUR",
+          style: "currency",
+        })}</td>
+        </tr>`;
+    html += "</table>";
+    document.getElementById("output").innerHTML = html;
+    amountCart.innerHTML = totalOrdered;
+    this.removeOrder();
+    this.plusmin();
+  },
+  plusmin() {
+    let plus = document.querySelectorAll(".order-form__up");
+    plus.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        let plusID = e.target.getAttribute("data-role");
+        let plusBook = this.order.filter((book) => book.ean == plusID);
+        plusBook[0].orderCount++;
+        localStorage.cartOrder = JSON.stringify(this.order);
+        this.run();
+      });
+    });
+    let min = document.querySelectorAll(".order-form__down");
+    min.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        let minID = e.target.getAttribute("data-role");
+        let minBook = this.order.filter((book) => book.ean == minID);
+        if (minBook[0].orderCount > 1) {
+          minBook[0].orderCount--;
+        } else {
+          this.order = this.order.filter((bk) => bk.ean != minID);
+        }
+        localStorage.cartOrder = JSON.stringify(this.order);
+        this.run();
+      });
+    });
+  },
+  removeOrder() {
+    document.querySelectorAll(".order-form__trash").forEach((trash) => {
+      trash.addEventListener("click", (e) => {
+        let bookToRemoveID = e.target.getAttribute("data-role");
+        this.order = this.order.filter((bk) => bk.ean != bookToRemoveID);
+        localStorage.cartOrder = JSON.stringify(this.order);
+        this.run();
+      });
+    });
+  },
 };
-
 cart.order();
 
 const books = {
   allLangu: ["Nederlands", "Chinees", "Engels"],
   es: "titel",
   oplopend: 1,
-
   filter(info) {
     this.data = info.filter((book) => {
       let bool = false;
@@ -52,7 +126,6 @@ const books = {
       return bool;
     });
   },
-
   sortAll() {
     if (this.es === "titel") {
       this.data.sort((a, b) =>
@@ -80,11 +153,11 @@ const books = {
       );
     }
   },
-
   run() {
     this.sortAll();
     let html = "";
     this.data.forEach((book) => {
+      book.orderCount = 0;
       let title = "";
       if (book.voortitel) {
         title += book.voortitel + " ";
@@ -202,7 +275,7 @@ const changeSort = () => {
 
 taalfilters.forEach((cb) => cb.addEventListener("change", applyFilter));
 selectSort.addEventListener("change", changeSort);
-document.querySelectorAll(".controls__rb").forEach((rb) =>
+document.querySelectorAll(".control__rb").forEach((rb) =>
   rb.addEventListener("change", () => {
     books.oplopend = rb.value;
     books.run();
