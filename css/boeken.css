@@ -1,0 +1,30 @@
+body {
+  font-family: "Roboto", sans-serif;
+}
+.control__sort {
+  float: right;
+  text-align: right;
+}
+.book {
+  padding: 1rem;
+  clear: left;
+}
+.book .book__cover {
+  float: left;
+  padding: 0 3rem 0 0;
+  max-width: 200px;
+}
+.book .book__titel {
+  margin-top: 0;
+  color: #2ecc71;
+  font-size: 1.5rem;
+}
+.book__pages::after,
+.book__edition::after,
+.book__ean::after {
+  content: " | ";
+}
+.book .book__price {
+  font-size: 2rem;
+  color: #2ecc71;
+}

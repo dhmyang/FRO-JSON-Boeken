@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Boekenlijst JSON</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="Mike Yang" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./css/boeken.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <h1>Kies uit de volgende boeken :</h1>
+    <div class="controls">
+      <label class="control__cb-label">
+        <input type="checkbox" class="control__cb" value="Nederlands" checked />
+        Nederlands
+      </label>
+      <label class="control__cb-label">
+        <input type="checkbox" class="control__cb" value="Engels" checked />
+        Engels
+      </label>
+      <label class="control__cb-label">
+        <input type="checkbox" class="control__cb" value="Duits" checked />
+        Duits
+      </label>
+
+      <span class="control__sort">
+        <label class="control__select--label">
+          Sorteren op:
+          <select class="control__select">
+            <option value="titel">Titel</option>
+            <option value="auteur">Auteurs</option>
+            <option value="uitgave">Datum van uitgave</option>
+            <option value="paginas">Aantal pagina's</option>
+            <option value="prijs">Prijs</option>
+          </select>
+        </label>
+        <label
+          ><input
+            type="radio"
+            name="opaf"
+            class="control__rb"
+            value="1"
+            checked
+          />Oplopend</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="opaf"
+            class="control__rb"
+            value="-1"
+          />Aflopend</label
+        >
+      </span>
+    </div>
+    <div id="boeken"></div>
+  </body>
+  <script src="script/boeken.js"></script>
+</html>
