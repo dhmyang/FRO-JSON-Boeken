@@ -18,14 +18,29 @@ request.send();
 
 const cart = {
   order: [],
+  addBook(obj) {
+    cart.order.push(obj);
+    amountInCart.innerHTML = this.bestelling.length;
+  },
+
+  saveOrder() {
+    localStorage.cartOrder = JSON.stringify(this.order);
+  },
+
+  getOrder() {
+    this.order = JSON.parse(localStorage.cartOrder);
+    amountInCart.innerHTML = this.bestelling.length;
+    this.run();
+  },
 };
+
+cart.order();
 
 const books = {
   allLangu: ["Nederlands", "Chinees", "Engels"],
   es: "titel",
   oplopend: 1,
 
-  // filter taal
   filter(info) {
     this.data = info.filter((book) => {
       let bool = false;
@@ -38,7 +53,6 @@ const books = {
     });
   },
 
-  // sorteer functie
   sortAll() {
     if (this.es === "titel") {
       this.data.sort((a, b) =>
@@ -67,23 +81,18 @@ const books = {
     }
   },
 
-  // make data
   run() {
-    // sort everything first
     this.sortAll();
     let html = "";
     this.data.forEach((book) => {
-      // put infront of titel
       let title = "";
       if (book.voortitel) {
         title += book.voortitel + " ";
       }
       title += book.titel;
-      // List of Autors
       let auteurs = "";
       book.auteurs.forEach((auteur, index) => {
         let mid = auteur.tussenvoegsel ? auteur.tussenvoegsel + " " : "";
-        // scheidingsteken tussen auteurs
         let separator = ", ";
         if (index >= book.auteurs.length - 2) {
           separator = " & ";
@@ -120,8 +129,7 @@ const books = {
         e.preventDefault();
         let bookID = e.target.getAttribute("data-role");
         let clickedBook = this.data.filter((b) => b.ean == bookID);
-        cart.order.push(clickedBook[0]);
-        amountInCart.innerHTML = ww.bestelling.length;
+        cart.addBook(clickedBook[0]);
       });
     });
   },
